@@ -1,9 +1,9 @@
 from flask import Flask
 from config import config
-from flask_mysqldb import Mysql
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
-conexion = Mysql(app)
+conexion = MySQL(app)
 
 @app.route('/cursos')
 def listar_cursos():
