@@ -1,4 +1,4 @@
-CREATE TABLE `aginaturasdb`.`asignaturas` (
+CREATE TABLE `asignaturas` (
   `idAsignaturas` INT NOT NULL AUTO_INCREMENT,
   `claveAsignatura` INT NOT NULL,
   `nombreAsignatura` VARCHAR(60) NOT NULL,
