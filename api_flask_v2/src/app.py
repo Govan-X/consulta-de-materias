@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from config import config
 from flask_mysqldb import MySQL
 
@@ -39,3 +39,32 @@ if __name__ == '__main__':
     app.register_error_handler(404, pagina_no_encontrada)
     app.run()
     
+@app.route('/cursos', methods=['GET'])    
+def leer curso(codigo):
+    try:
+        cursor = conexion.connection.cursor()
+        sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE codigo = '{0}'".format(codigo)
+        cursor.execute(sql)
+        datos=cursor.fetchone()
+        if datos != None:
+            curso = {'codigo': datos[0], 'claveAsignatura': claveAsignatura[1], 'nombreAsignatura': nombreAsignatura[2], 'grupo': grupo[3], 'profesor': grupo[4], 'salon': salon, 'dia': dia[5], 'hora': hora[6], 'lugaresDisponibles': lugaresDisponibles[7]}
+            return jsonify({'curso': Curso, 'mensaje': "Curso encontrado"})
+        else:
+            return jsonify({'mensaje': "Curso no encontrado"})
+    except Exception as ex:
+        return jsonify({'mensaje': error})
+
+@app.route('/cursos', methods=['POST'])
+def registrar_curso():
+    try: 
+        #print(request.json)
+        cursor = conexion.connection.cursor()
+        sql="""INSERT INTO curso(idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
+        VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')""".format(request.json['codigo'],
+        request.json['nombreAsignatura'], request.json['creditos'])
+        cursor.execute(sql)
+        conexion.connection.commit() #confirma la asersión.
+        return jsonify({'mensaje': "Curso registrado"})
+    except Exception as ex:
+        return jsonify({'mensaje': "Error"})
+
