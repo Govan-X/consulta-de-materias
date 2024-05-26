@@ -30,6 +30,31 @@ def listar_cursos():
     except Exception as ex: 
         return "Error"
     
+#Metodo PUT (Actualizar)
+@app.route('/cursos/<codigo>', methods=['PUT'])
+def actualizar_curso(codigo):
+    try:
+        cursor = mysql.connection.cursor()
+        sql = """UPDATE curso SET nombre = ´{0}´, WHERE codigo = '{1}'""".format(request.json['nombre'],codigo)
+        cursor.execute(sql)
+        mysql.connection.commit()
+        return jsonify({'mensaje': "Se ha actualizado."})
+    except Exception as ex:
+        return jsonify({'mensaje': "ERROR"})
+
+#Metodo DELETE (Eliminar)
+@app.route('/cursos/<codigo>', methods=['DELETE'])
+def eliminar_curso(codigo):
+    try:
+        cursor = mysql.connection.cursor()
+        sql = "DELETE FROM curso WHERE codigo = '{}'".format(codigo)
+        cursor.execute(sql)
+        mysql.connection.commit()
+        return jsonify({'mensaje': "Se ha eliminado."})
+    except Exception as ex:
+        return jsonify({'mensaje': "ERROR"})
+
+#Pagina no encontrada
 def pagina_no_encontrada(error):
     return "<h1>Lo sentimos, esta página no existe... :(</h1>"
 
@@ -38,4 +63,3 @@ if __name__ == '__main__':
     app.config.from_object(config['development'])
     app.register_error_handler(404, pagina_no_encontrada)
     app.run()
-    
