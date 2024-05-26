@@ -34,12 +34,12 @@ def listar_cursos():
 def leer curso(codigo):
     try:
         cursor = conexion.connection.cursor()
-        sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE codigo = '{0}'".format(codigo)
+        sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE idAsignaturas = '{0}'".format(codigo)
         cursor.execute(sql)
         datos=cursor.fetchone()
         if datos != None:
-            curso = {'codigo': datos[0], 'claveAsignatura': claveAsignatura[1], 'nombreAsignatura': nombreAsignatura[2], 'grupo': grupo[3], 'profesor': grupo[4], 'salon': salon, 'dia': dia[5], 'hora': hora[6], 'lugaresDisponibles': lugaresDisponibles[7]}
-            return jsonify({'curso': Curso, 'mensaje': "Curso encontrado"})
+            curso = {'idAsignaturas': datos[0], 'claveAsignatura': claveAsignatura[1], 'nombreAsignatura': nombreAsignatura[2], 'grupo': grupo[3], 'profesor': grupo[4], 'salon': salon, 'dia': dia[5], 'hora': hora[6], 'lugaresDisponibles': lugaresDisponibles[7]}
+            return jsonify({'claveAsignatura': claveAsignatura, 'mensaje': "Curso encontrado"})
         else:
             return jsonify({'mensaje': "Curso no encontrado"})
     except Exception as ex:
@@ -50,9 +50,9 @@ def registrar_curso():
     try: 
         #print(request.json)
         cursor = conexion.connection.cursor()
-        sql="""INSERT INTO curso(idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
-        VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}')""".format(request.json['codigo'],
-        request.json['nombreAsignatura'], request.json['creditos'])
+        sql="""INSERT INTO curso(claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
+        VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')""".format(request.json['claveAsignatura'], request.json['nombreAsignatura'],
+                request.json['grupo'], request.json['profesor'], request.json['salon'], request.json['dia'], request.json['hora'], request.json['lugaresDisponibles'])
         cursor.execute(sql)
         conexion.connection.commit() #confirma la asersión.
         return jsonify({'mensaje': "Curso registrado"})
