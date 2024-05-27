@@ -60,11 +60,13 @@ def registrar_curso():
         return jsonify({'mensaje': "Error"})
  
 #Metodo PUT (Actualizar)
-@app.route('/cursos/<codigo>', methods=['PUT'])
-def actualizar_curso(codigo):
+@app.route('/cursos/<idAsignaturas>', methods=['PUT'])
+def actualizar_curso(idAsignaturas):
     try:
         cursor = mysql.connection.cursor()
-        sql = """UPDATE curso SET nombre = ´{0}´, WHERE codigo = '{1}'""".format(request.json['nombre'],codigo)
+        sql = """UPDATE asignaturas SET claveAsignatura= ´{0}´, nombreAsignatura = '{1}',grupo = '{2}', profesor = '{3}', salon = '{4}', dia = '{5}', hora = '{6}', lugaresDisponibles = '{7}'
+        WHERE idAsignaturas = '{8}'""".format(request.json['claveAsignatura'], request.json['nombreAsignatura'],
+        request.json['grupo'], request.json['profesor'], request.json['salon'], request.json['dia'], request.json['hora'], request.json['lugaresDisponibles'], idAsignaturas)
         cursor.execute(sql)
         mysql.connection.commit()
         return jsonify({'mensaje': "Se ha actualizado."})
