@@ -30,16 +30,16 @@ def listar_cursos():
     except Exception as ex: 
         return "Error"
 
-@app.route('/cursos', methods=['GET'])    
-def leer_curso(codigo):
+@app.route('/cursos/<idAsignaturas>', methods=['GET'])    
+def leer_curso(idAsignaturas):
     try:
         cursor= mysql.connection.cursor()
-        sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE idAsignaturas = '{0}'".format(codigo)
+        sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM asignaturas WHERE idAsignaturas = '{0}'".format(idAsignaturas)
         cursor.execute(sql)
         datos=cursor.fetchone()
         if datos != None:
-            curso = {'idAsignaturas': datos[0], 'claveAsignatura': claveAsignatura[1], 'nombreAsignatura': nombreAsignatura[2], 'grupo': grupo[3], 'profesor': grupo[4], 'salon': salon, 'dia': dia[5], 'hora': hora[6], 'lugaresDisponibles': lugaresDisponibles[7]}
-            return jsonify({'claveAsignatura': claveAsignatura, 'mensaje': "Curso encontrado"})
+            curso = {'idAsignaturas': datos[0], 'claveAsignatura': datos[1], 'nombreAsignatura':datos[2], 'grupo': datos[3], 'profesor': datos[4], 'salon': datos[5], 'dia': datos[6], 'hora': datos[7], 'lugaresDisponibles': datos[8]}
+            return jsonify({'Asignatura': curso, 'mensaje': "Curso encontrado"})
         else:
             return jsonify({'mensaje': "Curso no encontrado"})
     except Exception as ex:
