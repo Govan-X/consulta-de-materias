@@ -45,7 +45,7 @@ def leer_curso(idAsignaturas):
     except Exception as ex:
         return jsonify({'mensaje': "Error"})
 
-@app.route('/cursos', methods=['POST'])
+@app.route('/cursos/idAsignaturas', methods=['POST'])
 def registrar_curso():
     try: 
         #print(request.json)
@@ -74,11 +74,11 @@ def actualizar_curso(idAsignaturas):
         return jsonify({'mensaje': "ERROR"})
 
 #Metodo DELETE (Eliminar)
-@app.route('/cursos/<codigo>', methods=['DELETE'])
-def eliminar_curso(codigo):
+@app.route('/cursos/<idAsignaturas>', methods=['DELETE'])
+def eliminar_curso(idAsignaturas):
     try:
         cursor = mysql.connection.cursor()
-        sql = "DELETE FROM curso WHERE codigo = '{}'".format(codigo)
+        sql = "DELETE FROM asignaturas WHERE idAsignaturas = '{}'".format(idAsignaturas)
         cursor.execute(sql)
         mysql.connection.commit()
         return jsonify({'mensaje': "Se ha eliminado."})
