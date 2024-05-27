@@ -64,7 +64,7 @@ def registrar_curso():
 def actualizar_curso():
     try:
         cursor = mysql.connection.cursor()
-        sql = """UPDATE curso SET nombre = ´{0}´, WHERE codigo = '{1}'""".format(request.json['nombre'],codigo)
+        sql = """UPDATE asignaturas SET nombre = ´{0}´, WHERE idAsignaturas = '{1}'""".format(request.json['nombre'],codigo)
         cursor.execute(sql)
         mysql.connection.commit()
         return jsonify({'mensaje': "Se ha actualizado."})
@@ -76,7 +76,7 @@ def actualizar_curso():
 def eliminar_curso(idAsignaturas):
     try:
         cursor = mysql.connection.cursor()
-        sql = "DELETE FROM curso WHERE codigo = '{}'".format(idAsignaturas)
+        sql = "DELETE FROM asignaturas WHERE idAsignaturas = '{}'".format(idAsignaturas)
         cursor.execute(sql)
         mysql.connection.commit()
         return jsonify({'mensaje': "Se ha eliminado."})
