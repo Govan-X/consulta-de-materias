@@ -33,7 +33,7 @@ def listar_cursos():
 @app.route('/cursos', methods=['GET'])    
 def leer_curso(codigo):
     try:
-        cursor = conexion.connection.cursor()
+        cursor= mysql.connection.cursor()
         sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE idAsignaturas = '{0}'".format(codigo)
         cursor.execute(sql)
         datos=cursor.fetchone()
@@ -43,13 +43,13 @@ def leer_curso(codigo):
         else:
             return jsonify({'mensaje': "Curso no encontrado"})
     except Exception as ex:
-        return jsonify({'mensaje': error})
+        return jsonify({'mensaje': "Error"})
 
 @app.route('/cursos', methods=['POST'])
 def registrar_curso():
     try: 
         #print(request.json)
-        cursor = conexion.connection.cursor()
+        cursor= mysql.connection.cursor()
         sql="""INSERT INTO curso(claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
         VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')""".format(request.json['claveAsignatura'], request.json['nombreAsignatura'],
                 request.json['grupo'], request.json['profesor'], request.json['salon'], request.json['dia'], request.json['hora'], request.json['lugaresDisponibles'])
@@ -58,9 +58,7 @@ def registrar_curso():
         return jsonify({'mensaje': "Curso registrado"})
     except Exception as ex:
         return jsonify({'mensaje': "Error"})
-
-
-    
+ 
 #Metodo PUT (Actualizar)
 @app.route('/cursos/<codigo>', methods=['PUT'])
 def actualizar_curso(codigo):
