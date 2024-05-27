@@ -31,7 +31,7 @@ def listar_cursos():
         return "Error"
 
 @app.route('/cursos', methods=['GET'])    
-def leer curso(codigo):
+def leer_curso(codigo):
     try:
         cursor = conexion.connection.cursor()
         sql = "SELECT idAsignaturas, claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles FROM curso WHERE idAsignaturas = '{0}'".format(codigo)
