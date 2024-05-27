@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from config import config
 from flask_mysqldb import MySQL
 
@@ -50,7 +50,7 @@ def registrar_curso():
     try: 
         #print(request.json)
         cursor= mysql.connection.cursor()
-        sql="""INSERT INTO curso(claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
+        sql="""INSERT INTO asignaturas(claveAsignatura, nombreAsignatura, grupo, profesor, salon, dia, hora, lugaresDisponibles) 
         VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')""".format(request.json['claveAsignatura'], request.json['nombreAsignatura'],
                 request.json['grupo'], request.json['profesor'], request.json['salon'], request.json['dia'], request.json['hora'], request.json['lugaresDisponibles'])
         cursor.execute(sql)
